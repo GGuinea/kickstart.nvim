@@ -6,6 +6,7 @@ return {
     "antoinemadec/FixCursorHold.nvim",
     "nvim-neotest/neotest-plenary",
     "nvim-neotest/neotest-go",
+    "marilari88/neotest-vitest",
     "nvim-neotest/neotest-vim-test",
     "jfpedroza/neotest-elixir"
   },
@@ -27,6 +28,7 @@ return {
     adapters = {
       require "neotest-go",
       require "neotest-elixir",
+      require "neotest-vitest",
       require "neotest-vim-test" {
       },
     },
