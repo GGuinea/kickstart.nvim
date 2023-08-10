@@ -227,7 +227,7 @@ vim.o.wrap = true
 -- end of mine
 
 
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.wo.number = true
@@ -278,6 +278,7 @@ vim.keymap.set('n', '<C-h>', '<C-w>h', {})
 vim.keymap.set('n', '<C-j>', '<C-w>j', {})
 vim.keymap.set('n', '<C-k>', '<C-w>k', {})
 vim.keymap.set('n', '<C-l>', '<C-w>l', {})
+vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>', {})
 -- end of mine keymaps
 
 -- [[ Highlight on yank ]]
