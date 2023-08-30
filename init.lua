@@ -140,12 +140,23 @@ require('lazy').setup({
     },
   },
   {
-    "morhetz/gruvbox",
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'gruvbox'
-    end,
-  },
+  'ribru17/bamboo.nvim',
+  lazy = false,
+  priority = 1000,
+  config = function()
+    require('bamboo').setup {
+        style = 'multiplex'
+    }
+    require('bamboo').load()
+  end,
+},  
+  -- {
+  --   "morhetz/gruvbox",
+  --   priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'gruvbox'
+  --   end,
+  -- },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -334,7 +345,7 @@ vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { des
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'elixir' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'elixir', 'terraform' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -459,6 +470,7 @@ local servers = {
   rust_analyzer = {},
   tsserver = {},
   elixirls = {},
+  terraformls = {},
 
   lua_ls = {
     Lua = {
