@@ -1,15 +1,18 @@
 return {
   "jose-elias-alvarez/null-ls.nvim",
   config = function()
+        local nullLs = require("null-ls")
     require("null-ls").setup({
       sources = {
-        require("null-ls").builtins.formatting.prettier, -- markdown formatting
-        require("null-ls").builtins.code_actions.eslint_d,
-        require("null-ls").builtins.diagnostics.credo,
-        require("null-ls").builtins.diagnostics.deno_lint,
-        require("null-ls").builtins.diagnostics.eslint_d,
-        require("null-ls").builtins.diagnostics.gitlint,
-        require("null-ls").builtins.diagnostics.golangci_lint,
+        nullLs.builtins.formatting.prettier, -- markdown formatting
+        nullLs.builtins.code_actions.eslint_d,
+        nullLs.builtins.diagnostics.credo.with({
+                  method = nullLs.methods.DIAGNOSTICS_ON_SAVE,
+        }),
+        nullLs.builtins.diagnostics.deno_lint,
+        nullLs.builtins.diagnostics.eslint_d,
+        nullLs.builtins.diagnostics.gitlint,
+        nullLs.builtins.diagnostics.golangci_lint,
       }
     })
   end
