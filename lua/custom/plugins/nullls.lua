@@ -9,10 +9,7 @@ return {
         nullLs.builtins.diagnostics.credo.with({
                   method = nullLs.methods.DIAGNOSTICS_ON_SAVE,
         }),
-        nullLs.builtins.diagnostics.deno_lint,
         nullLs.builtins.diagnostics.eslint_d,
-        nullLs.builtins.diagnostics.gitlint,
-        nullLs.builtins.diagnostics.golangci_lint,
       }
     })
   end
