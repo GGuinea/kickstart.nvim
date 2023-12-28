@@ -139,17 +139,22 @@ require('lazy').setup({
       end,
     },
   },
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require 'kanagawa'.load("dragon")
+  --   end
+  -- },
   {
-  'ribru17/bamboo.nvim',
-  lazy = false,
-  priority = 1000,
-  config = function()
-    require('bamboo').setup {
-        style = 'multiplex'
-    }
-    require('bamboo').load()
-  end,
-},  
+    'daschw/leaf.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('leaf').load()
+    end,
+  },
   -- {
   --   "morhetz/gruvbox",
   --   priority = 1000,
@@ -235,6 +240,8 @@ vim.o.guicursor = ""
 vim.o.relativenumber = true
 vim.o.cursorline = true
 vim.o.wrap = true
+vim.wo.linebreak = true
+vim.wo.wrap = true
 -- end of mine
 
 
@@ -295,10 +302,10 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
