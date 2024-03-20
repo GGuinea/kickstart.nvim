@@ -147,14 +147,23 @@ require('lazy').setup({
   --     require 'kanagawa'.load("dragon")
   --   end
   -- },
+  -- {
+  --   'daschw/leaf.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require('leaf').load()
+  --   end,
+  -- },
   {
-    'daschw/leaf.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('leaf').load()
-    end,
-  },
+  "folke/tokyonight.nvim",
+  lazy = false,
+  priority = 1000,
+  opts = {},
+  config = function()
+    vim.cmd.colorscheme 'tokyonight-night'
+  end,
+},
   -- {
   --   "morhetz/gruvbox",
   --   priority = 1000,
@@ -181,9 +190,8 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
+    main = 'ibl',
     opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
     },
   },
 
@@ -364,7 +372,7 @@ vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { des
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'elixir', 'terraform' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'elixir', 'terraform', 'html' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -490,6 +498,7 @@ local servers = {
   tsserver = {},
   elixirls = {},
   terraformls = {},
+  html = {},
 
   lua_ls = {
     Lua = {
@@ -505,6 +514,8 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
