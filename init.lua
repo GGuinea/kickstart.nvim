@@ -41,6 +41,9 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+vim.filetype.add({ extension = { templ = "templ" } })
+
+
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -155,22 +158,90 @@ require('lazy').setup({
   --     require('leaf').load()
   --   end,
   -- },
-  {
-  "folke/tokyonight.nvim",
-  lazy = false,
-  priority = 1000,
-  opts = {},
-  config = function()
-    vim.cmd.colorscheme 'tokyonight-night'
-  end,
-},
-  -- {
-  --   "morhetz/gruvbox",
+  --{
+  --   "folke/tokyonight.nvim",
+  --   lazy = false,
   --   priority = 1000,
+  --   opts = {},
   --   config = function()
-  --     vim.cmd.colorscheme 'gruvbox'
+  --     vim.cmd.colorscheme 'tokyonight-night'
   --   end,
   -- },
+  {
+    "cpea2506/one_monokai.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("one_monokai").setup({
+      })
+      vim.cmd.colorscheme 'one_monokai'
+    end,
+  },
+  {
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+  {
+    "0xstepit/flow.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
+    'ribru17/bamboo.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('bamboo').setup {
+        -- optional configuration here
+      }
+      require('bamboo').load()
+      -- vim.cmd.colorscheme 'bamboo'
+    end,
+  },
+  {
+    "eldritch-theme/eldritch.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
+    "olimorris/onedarkpro.nvim",
+    priority = 1000, -- Ensure it loads first
+  },
+  {
+    "morhetz/gruvbox",
+    priority = 1000,
+    config = function()
+      --  vim.cmd.colorscheme 'gruvbox'
+    end,
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    config = function()
+      --vim.cmd.colorscheme 'rose-pine-moon'
+    end,
+  },
+  {
+    'Abstract-IDE/Abstract-cs',
+    config = function()
+      --vim.cmd.colorscheme 'abscs'
+    end,
+  },
+  {
+    'projekt0n/github-nvim-theme',
+    config = function()
+      --vim.cmd.colorscheme 'github_dark_default'
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      --vim.cmd.colorscheme 'kanagawa-dragon'
+    end,
+  },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -182,7 +253,16 @@ require('lazy').setup({
         component_separators = '|',
         section_separators = '',
       },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_c = { 'filename' },
+        lualine_x = { 'encoding', 'fileformat', 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' }
+      },
     },
+
   },
 
   {
@@ -317,6 +397,9 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
+
+vim.keymap.set("n", "<leader>k", "<cmd>cnext<CR>")
+vim.keymap.set("n", "<leader>j", "<cmd>cprev<CR>")
 -- end of mine keymaps
 
 -- [[ Highlight on yank ]]
@@ -348,6 +431,7 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'git_worktree')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -366,7 +450,12 @@ vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { desc = '[G]it [S]tatus' })
+vim.keymap.set('n', '<leader>wt', require('telescope').extensions.git_worktree.git_worktrees,
+  { desc = '[W]worktree [S]witch' })
+vim.keymap.set('n', '<leader>cwt', require('telescope').extensions.git_worktree.create_git_worktree,
+  { desc = '[C]reate [W]orktree' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -461,6 +550,12 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap("vgd", function()
+    require('telescope.builtin').lsp_definitions {
+      jump_type = "vsplit",
+    }
+  end, '[V]ertical [G]oto [D]efinition')
+
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
@@ -495,10 +590,12 @@ local servers = {
   gopls = {},
   pyright = {},
   rust_analyzer = {},
-  tsserver = {},
   elixirls = {},
   terraformls = {},
-  html = {},
+  typos_lsp = {},
+  templ = {},
+  tailwindcss = {},
+  --htmx = {},
 
   lua_ls = {
     Lua = {
@@ -534,6 +631,26 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
+
+local lspconfig = require 'lspconfig'
+lspconfig.tailwindcss.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "templ", "astro", "javascript", "typescript", "react" },
+  settings = {
+    tailwindCSS = {
+      includeLanguages = {
+        templ = "html",
+      },
+    },
+  },
+})
+
+lspconfig.htmx.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "html", "templ" },
+})
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
 local cmp = require 'cmp'
@@ -579,8 +696,10 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'vim-dadbod-completion' }
   },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+--

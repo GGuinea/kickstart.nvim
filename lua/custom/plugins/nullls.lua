@@ -1,16 +1,23 @@
 return {
-  "jose-elias-alvarez/null-ls.nvim",
+  "nvimtools/none-ls.nvim",
+  dependencies = {
+    "mason.nvim",
+    "nvimtools/none-ls-extras.nvim",
+    "davidmh/cspell.nvim",
+  },
   config = function()
-        local nullLs = require("null-ls")
-    require("null-ls").setup({
+    local none_ls = require("null-ls")
+    local cspell = require("cspell")
+
+    local cspell_config = {
+      find_json = function(cwd)
+        return "/Users/kamilzielinski/.config/nvim/lua/custom/plugins/cspell.json"
+      end,
+    }
+
+    none_ls.setup({
       sources = {
-        nullLs.builtins.formatting.prettier, -- markdown formatting
-        nullLs.builtins.code_actions.eslint_d,
-        nullLs.builtins.diagnostics.credo.with({
-                  method = nullLs.methods.DIAGNOSTICS_ON_SAVE,
-        }),
-        nullLs.builtins.diagnostics.eslint_d,
-      }
+      },
     })
-  end
+  end,
 }
