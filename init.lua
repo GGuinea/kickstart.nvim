@@ -155,9 +155,6 @@ require('lazy').setup({
         delay = 1000,
         ignore_whitespace = false,
       },
-      current_line_blame_formatter_opts = {
-        relative_time = false,
-      },
       on_attach = function(bufnr)
         vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
           { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
@@ -191,49 +188,49 @@ require('lazy').setup({
   --     vim.cmd.colorscheme 'tokyonight-night'
   --   end,
   -- },
-  {
-    "cpea2506/one_monokai.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("one_monokai").setup({
-      })
-      vim.cmd.colorscheme 'one_monokai'
-    end,
-  },
-  {
-    "scottmckendry/cyberdream.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-  {
-    "0xstepit/flow.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
-  {
-    'ribru17/bamboo.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('bamboo').setup {
-        -- optional configuration here
-      }
-      require('bamboo').load()
-      -- vim.cmd.colorscheme 'bamboo'
-    end,
-  },
-  {
-    "eldritch-theme/eldritch.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
-  },
-  {
-    "olimorris/onedarkpro.nvim",
-    priority = 1000, -- Ensure it loads first
-  },
+  -- {
+  --   "cpea2506/one_monokai.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("one_monokai").setup({
+  --     })
+  --     --vim.cmd.colorscheme 'one_monokai'
+  --   end,
+  -- },
+  -- {
+  --   "scottmckendry/cyberdream.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  -- },
+  -- {
+  --   "0xstepit/flow.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
+  -- {
+  --   'ribru17/bamboo.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require('bamboo').setup {
+  --       -- optional configuration here
+  --     }
+  --     require('bamboo').load()
+  --     -- vim.cmd.colorscheme 'bamboo'
+  --   end,
+  -- },
+  -- {
+  --   "eldritch-theme/eldritch.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
+  -- {
+  --   "olimorris/onedarkpro.nvim",
+  --   priority = 1000, -- Ensure it loads first
+  -- },
   {
     "morhetz/gruvbox",
     priority = 1000,
@@ -241,31 +238,31 @@ require('lazy').setup({
       --  vim.cmd.colorscheme 'gruvbox'
     end,
   },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    config = function()
-      --vim.cmd.colorscheme 'rose-pine-moon'
-    end,
-  },
-  {
-    'Abstract-IDE/Abstract-cs',
-    config = function()
-      --vim.cmd.colorscheme 'abscs'
-    end,
-  },
-  {
-    'projekt0n/github-nvim-theme',
-    config = function()
-      --vim.cmd.colorscheme 'github_dark_default'
-    end,
-  },
-  {
-    "rebelot/kanagawa.nvim",
-    config = function()
-      --vim.cmd.colorscheme 'kanagawa-dragon'
-    end,
-  },
+  -- {
+  --   "rose-pine/neovim",
+  --   name = "rose-pine",
+  --   config = function()
+  --     --vim.cmd.colorscheme 'rose-pine-moon'
+  --   end,
+  -- },
+  -- {
+  --   'Abstract-IDE/Abstract-cs',
+  --   config = function()
+  --     --vim.cmd.colorscheme 'abscs'
+  --   end,
+  -- },
+  -- {
+  --   'projekt0n/github-nvim-theme',
+  --   config = function()
+  --     --vim.cmd.colorscheme 'github_dark_default'
+  --   end,
+  -- },
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   config = function()
+  --     --vim.cmd.colorscheme 'kanagawa-dragon'
+  --   end,
+  -- },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -410,6 +407,9 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', {})
 vim.keymap.set('n', '<C-l>', '<C-w>l', {})
 vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>', {})
 
+vim.keymap.set('n', 'dd', '"_dd', {noremap = true, silent = true})
+vim.keymap.set('v', 'd', '"_x', {noremap = true, silent = true})
+
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
@@ -488,8 +488,10 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'elixir', 'terraform', 'html' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = false,
-
+  auto_install = true,
+  playground = {
+    enable = true,
+  },
   highlight = { enable = true },
   indent = { enable = true },
   incremental_selection = {
@@ -619,7 +621,8 @@ local servers = {
   typos_lsp = {},
   templ = {},
   tailwindcss = {},
-  --htmx = {},
+  htmx = {},
+  html = {},
 
   lua_ls = {
     Lua = {
@@ -652,6 +655,7 @@ mason_lspconfig.setup_handlers {
 
 
 local lspconfig = require 'lspconfig'
+
 lspconfig.tailwindcss.setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -670,11 +674,12 @@ lspconfig.htmx.setup({
   capabilities = capabilities,
   filetypes = { "html", "templ" },
 })
--- [[ Configure nvim-cmp ]]
--- See `:help cmp`
---
---
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
---
+lspconfig.templ.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "html", "templ" },
+})
+
+require("custom.themes.treehouse").load()
+
