@@ -93,7 +93,9 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
+  {
+    "sindrets/diffview.nvim"
+  },
   {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
@@ -235,7 +237,7 @@ require('lazy').setup({
     "morhetz/gruvbox",
     priority = 1000,
     config = function()
-      --  vim.cmd.colorscheme 'gruvbox'
+      vim.cmd.colorscheme 'gruvbox'
     end,
   },
   -- {
@@ -314,7 +316,9 @@ require('lazy').setup({
       return vim.fn.executable 'make' == 1
     end,
   },
-
+  {
+    'nvim-telescope/telescope-ui-select.nvim'
+  },
   {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -322,6 +326,26 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+  },
+  {
+    "aaronhallaert/advanced-git-search.nvim",
+    cmd = { "AdvancedGitSearch" },
+    config = function()
+      require("advanced_git_search.fzf").setup {
+        -- Insert Config here
+      }
+    end,
+    dependencies = {
+      -- Insert Dependencies here
+    },
+  },
+  {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- or if using mini.icons/mini.nvim
+    -- dependencies = { "echasnovski/mini.icons" },
+    opts = {}
   },
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -407,8 +431,8 @@ vim.keymap.set('n', '<C-k>', '<C-w>k', {})
 vim.keymap.set('n', '<C-l>', '<C-w>l', {})
 vim.keymap.set('n', '<leader>h', '<cmd>nohlsearch<CR>', {})
 
-vim.keymap.set('n', 'dd', '"_dd', {noremap = true, silent = true})
-vim.keymap.set('v', 'd', '"_x', {noremap = true, silent = true})
+vim.keymap.set('n', 'dd', '"_dd', { noremap = true, silent = true })
+vim.keymap.set('v', 'd', '"_x', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -448,14 +472,38 @@ require('telescope').setup {
         ['<C-d>'] = false,
         ["<C-j>"] = telescopeActions.move_selection_next,
         ["<C-k>"] = telescopeActions.move_selection_previous,
+        ["<C-t>"] = telescopeActions.cycle_previewers_next,
       },
     },
   },
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+        -- even more opts
+      }
+
+      -- pseudo code / specification for writing custom displays, like the one
+      -- for "codeactions"
+      -- specific_opts = {
+      --   [kind] = {
+      --     make_indexed = function(items) -> indexed_items, width,
+      --     make_displayer = function(widths) -> displayer
+      --     make_display = function(displayer) -> function(e)
+      --     make_ordinal = function(e) -> string
+      --   },
+      --   -- for example to disable the custom builtin "codeactions" display
+      --      do the following
+      --   codeactions = false,
+      -- }
+    }
+  }
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 pcall(require('telescope').load_extension, 'git_worktree')
+pcall(require("telescope").load_extension, 'ui-select')
+
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -681,5 +729,4 @@ lspconfig.templ.setup({
   filetypes = { "html", "templ" },
 })
 
-require("custom.themes.treehouse").load()
-
+--require("custom.themes.treehouse").load()
